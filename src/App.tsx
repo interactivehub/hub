@@ -1,5 +1,16 @@
+import { Card, CardContent, CardHeader, CardTitle } from "./components/ui/card"
+
 function App() {
-  return <h1 className="text-3xl font-bold underline">Hello world!</h1>
+  return (
+    <div>
+      <Card className="w-96">
+        <CardHeader>
+          <CardTitle>Title</CardTitle>
+        </CardHeader>
+        <CardContent>Content</CardContent>
+      </Card>
+    </div>
+  )
 }
 
 export default App
