@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "./components/ui/card"
 
-function App() {
+const Home = () => {
   return (
     <div>
       <Card className="w-96">
@@ -13,4 +13,4 @@ function App() {
   )
 }
 
-export default App
+export default Home
