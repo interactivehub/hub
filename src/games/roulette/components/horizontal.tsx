@@ -11,19 +11,19 @@ export interface RouletteNumber {
 
 export interface RouletteProps {
   mustStartSpinning: boolean
-  winningNumber: RouletteNumber
+  winningIndex: number
   onSpinStop?: VoidFunction
 }
 
 const RouletteHorizontal: React.FC<RouletteProps & { data: PrizeType[] }> = (
   props
 ) => {
-  const { data, mustStartSpinning, winningNumber, onSpinStop } = props
+  const { data, mustStartSpinning, winningIndex, onSpinStop } = props
 
   return (
     <RoulettePro
       prizes={data}
-      prizeIndex={winningNumber.index}
+      prizeIndex={winningIndex}
       start={mustStartSpinning}
       onPrizeDefined={onSpinStop}
     />
