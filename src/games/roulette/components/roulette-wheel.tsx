@@ -1,8 +1,12 @@
 import React from "react"
-import "react-roulette-pro/dist/index.css"
-import { RouletteProps } from "./horizontal"
 import { Wheel } from "react-custom-roulette"
 import { WheelData } from "react-custom-roulette/dist/components/Wheel/types"
+
+export interface RouletteProps {
+  mustStartSpinning: boolean
+  winningIndex: number
+  onSpinStop?: VoidFunction
+}
 
 const RouletteWheel: React.FC<RouletteProps & { data: WheelData[] }> = (
   props
@@ -15,6 +19,9 @@ const RouletteWheel: React.FC<RouletteProps & { data: WheelData[] }> = (
       prizeNumber={winningIndex}
       mustStartSpinning={mustStartSpinning}
       onStopSpinning={onSpinStop}
+      outerBorderWidth={2}
+      radiusLineWidth={2}
+      spinDuration={1}
     />
   )
 }
