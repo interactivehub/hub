@@ -1,5 +1,5 @@
 import React from "react"
-import FortuneWheel from "./fortune-wheel"
+import Wheel from "./wheel"
 import { WheelData } from "react-custom-roulette/dist/components/Wheel/types"
 import Typography from "@/components/ui/typography"
 import ConfettiExplosion from "react-confetti-explosion"
@@ -42,7 +42,7 @@ const data: WheelData[] = [
   { style: { backgroundColor: "#6F7F9A" } },
 ]
 
-const FortuneWheelLayout: React.FC = () => {
+const WheelLayout: React.FC = () => {
   const [isCelebrating, setIsCelebrating] = React.useState(false)
   const [isSpinning, setIsSpinning] = React.useState(true)
   const { toast } = useToast()
@@ -64,11 +64,11 @@ const FortuneWheelLayout: React.FC = () => {
         </div>
       )}
       <div className="p-4 flex flex-col gap-4">
-        <Typography.H1>Fortune Wheel</Typography.H1>
+        <Typography.H1>Wheel</Typography.H1>
         <Typography.Lead>Bet on a color and try your luck!</Typography.Lead>
 
         <Card className="p-8">
-          <FortuneWheel
+          <Wheel
             mustStartSpinning={isSpinning}
             winningIndex={0}
             data={data}
@@ -80,4 +80,4 @@ const FortuneWheelLayout: React.FC = () => {
   )
 }
 
-export default FortuneWheelLayout
+export default WheelLayout

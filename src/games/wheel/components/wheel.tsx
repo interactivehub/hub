@@ -1,5 +1,5 @@
 import React from "react"
-import { Wheel } from "react-custom-roulette"
+import { Wheel as CustomWheel } from "react-custom-roulette"
 import { WheelData } from "react-custom-roulette/dist/components/Wheel/types"
 
 export interface RouletteProps {
@@ -8,15 +8,13 @@ export interface RouletteProps {
   onSpinStop?: VoidFunction
 }
 
-const FortuneWheel: React.FC<RouletteProps & { data: WheelData[] }> = (
-  props
-) => {
+const Wheel: React.FC<RouletteProps & { data: WheelData[] }> = (props) => {
   const { data, mustStartSpinning, winningIndex, onSpinStop } = props
 
   return (
     <div className="flex items-center justify-center">
       <div className="">
-        <Wheel
+        <CustomWheel
           data={data}
           prizeNumber={winningIndex}
           mustStartSpinning={mustStartSpinning}
@@ -41,4 +39,4 @@ const FortuneWheel: React.FC<RouletteProps & { data: WheelData[] }> = (
   )
 }
 
-export default FortuneWheel
+export default Wheel

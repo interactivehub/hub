@@ -2,7 +2,7 @@ import React from "react"
 import useWebSocket from "react-use-websocket"
 import { useToast } from "./components/ui/use-toast"
 import { WSEvent } from "./types"
-import FortuneWheelLayout from "./games/fortune-wheel/components/fortune-wheel-layout"
+import WheelLayout from "./games/wheel/components/wheel-layout"
 import Logo from "./components/logo"
 import { Toaster } from "./components/ui/toaster"
 
@@ -29,7 +29,7 @@ const Home = () => {
         <Logo />
       </div>
 
-      <FortuneWheelLayout />
+      <WheelLayout />
 
       <Toaster />
     </div>
