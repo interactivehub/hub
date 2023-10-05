@@ -1,19 +1,5 @@
-import React from "react"
-
-export interface LogoProps {
-  color?: string
-}
-
-const Logo: React.FC<LogoProps> = ({ color = "#FA4475" }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    version="1.1"
-    viewBox="0.00 0.00 250.00 250.00"
-    height="auto"
-  >
-    <path
-      fill={color}
-      d="
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0.00 0.00 250.00 250.00">
+<path fill="#FA4475" d="
   M 159.98 90.99
   L 173.02 71.82
   Q 173.38 71.29 173.61 71.89
@@ -39,12 +25,9 @@ const Logo: React.FC<LogoProps> = ({ color = "#FA4475" }) => (
   A 18.08 18.08 0.0 0 0 137.9011 200.4380
   L 176.1980 162.1411
   Z"
-    />
-    <circle fill={color} cx="125.04" cy="123.47" r="11.23" />
-    <circle fill={color} cx="99.13" cy="149.37" r="11.22" />
-    <circle fill={color} cx="150.86" cy="149.36" r="11.23" />
-    <circle fill={color} cx="125.02" cy="175.18" r="11.22" />
-  </svg>
-)
-
-export default Logo
+/>
+<circle fill="#FA4475" cx="125.04" cy="123.47" r="11.23"/>
+<circle fill="#FA4475" cx="99.13" cy="149.37" r="11.22"/>
+<circle fill="#FA4475" cx="150.86" cy="149.36" r="11.23"/>
+<circle fill="#FA4475" cx="125.02" cy="175.18" r="11.22"/>
+</svg>
