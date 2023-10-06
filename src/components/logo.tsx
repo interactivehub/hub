@@ -9,7 +9,7 @@ const Logo: React.FC<LogoProps> = ({ color = "#FA4475" }) => (
     xmlns="http://www.w3.org/2000/svg"
     version="1.1"
     viewBox="0.00 0.00 250.00 250.00"
-    height="auto"
+    height="100%"
   >
     <path
       fill={color}
