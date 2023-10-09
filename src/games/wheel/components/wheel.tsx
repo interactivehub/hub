@@ -10,30 +10,26 @@ export interface RouletteProps {
 
 const Wheel: React.FC<RouletteProps & { data: WheelData[] }> = (props) => {
   const { data, mustStartSpinning, winningIndex, onSpinStop } = props
-
   return (
     <div className="flex items-center justify-center">
-      <div className="">
-        <CustomWheel
-          data={data}
-          prizeNumber={winningIndex}
-          mustStartSpinning={mustStartSpinning}
-          onStopSpinning={onSpinStop}
-          outerBorderWidth={0}
-          radiusLineWidth={5}
-          radiusLineColor="white"
-          spinDuration={1}
-          innerBorderWidth={210}
-          innerBorderColor="white"
-          pointerProps={{
-            style: {
-              top: 0,
-              right: 0,
-            },
-          }}
-        />
-      </div>
-
+      <CustomWheel
+        data={data}
+        prizeNumber={winningIndex}
+        mustStartSpinning={mustStartSpinning}
+        onStopSpinning={onSpinStop}
+        outerBorderColor="#121212"
+        outerBorderWidth={10}
+        radiusLineColor="#121212"
+        innerBorderWidth={200}
+        innerBorderColor="#121212"
+        disableInitialAnimation
+        pointerProps={{
+          src: "assets/wheel-pointer-sharp.svg",
+          style: {
+            right: 5,
+          },
+        }}
+      />
       <div className="fixed z-10">ciao</div>
     </div>
   )

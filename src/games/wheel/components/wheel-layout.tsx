@@ -3,58 +3,67 @@ import Wheel from "./wheel"
 import { WheelData } from "react-custom-roulette/dist/components/Wheel/types"
 import Typography from "@/components/ui/typography"
 import ConfettiExplosion from "react-confetti-explosion"
-import { Card } from "@/components/ui/card"
+import { Card, CardContent } from "@/components/ui/card"
 import { useToast } from "@/components/ui/use-toast"
+import { WheelMetadata } from "@/api/games/get-games-metadata"
+import useWebSocket from "react-use-websocket"
+import { ENGINE_WS_URL } from "@/constants"
+import { RequestWheelRoundWsEvent } from "../types"
 
-const data: WheelData[] = [
-  { style: { backgroundColor: "#3b82f6" } },
-  { style: { backgroundColor: "#6F7F9A" } },
-  { style: { backgroundColor: "#57BBF3" } },
-  { style: { backgroundColor: "#6F7F9A" } },
-  { style: { backgroundColor: "#57BBF3" } },
-  { style: { backgroundColor: "#D58678" } },
-  { style: { backgroundColor: "#EDD079" } },
-  { style: { backgroundColor: "#D58678" } },
-  { style: { backgroundColor: "#0f172a" } },
-  { style: { backgroundColor: "white" } },
-  { style: { backgroundColor: "#0f172a" } },
-  { style: { backgroundColor: "white" } },
-  { style: { backgroundColor: "#0f172a" } },
-  { style: { backgroundColor: "white" } },
-  { style: { backgroundColor: "#0f172a" } },
-  { style: { backgroundColor: "#6F7F9A" } },
-  { style: { backgroundColor: "#57BBF3" } },
-  { style: { backgroundColor: "white" } },
-  { style: { backgroundColor: "#6F7F9A" } },
-  { style: { backgroundColor: "#57BBF3" } },
-  { style: { backgroundColor: "#6F7F9A" } },
-  { style: { backgroundColor: "#57BBF3" } },
-  { style: { backgroundColor: "#D58678" } },
-  { style: { backgroundColor: "#EDD079" } },
-  { style: { backgroundColor: "#D58678" } },
-  { style: { backgroundColor: "#0f172a" } },
-  { style: { backgroundColor: "white" } },
-  { style: { backgroundColor: "#0f172a" } },
-  { style: { backgroundColor: "white" } },
-  { style: { backgroundColor: "#0f172a" } },
-  { style: { backgroundColor: "white" } },
-  { style: { backgroundColor: "#0f172a" } },
-  { style: { backgroundColor: "#6F7F9A" } },
-]
+export interface WheelLayoutProps {
+  wheelMetadata: WheelMetadata
+}
 
-const WheelLayout: React.FC = () => {
+const WheelLayout: React.FC<WheelLayoutProps> = ({ wheelMetadata }) => {
+  const { sendJsonMessage } = useWebSocket(ENGINE_WS_URL)
+
   const [isCelebrating, setIsCelebrating] = React.useState(false)
-  const [isSpinning, setIsSpinning] = React.useState(true)
   const { toast } = useToast()
 
+  const [mustSpin, setMustSpin] = React.useState(false)
+  const [prizeNumber, setPrizeNumber] = React.useState(0)
+
+  const formattedWheelData: WheelData[] = React.useMemo(() => {
+    return wheelMetadata.items.map((item) => ({
+      style: {
+        backgroundColor: item.color,
+      },
+    }))
+  }, [wheelMetadata.items])
+
+  const handleSpinClick = () => {
+    if (!mustSpin) {
+      const newPrizeNumber = Math.floor(
+        Math.random() * formattedWheelData.length
+      )
+      setPrizeNumber(newPrizeNumber)
+      setMustSpin(true)
+    }
+  }
+
+  const requestNewRound = React.useCallback(async () => {
+    const clientSeed = "random-shitAAA"
+
+    const requestWheelRoundEvent: RequestWheelRoundWsEvent = {
+      type: "requestWheelRound",
+      payload: {
+        clientSeed,
+      },
+    }
+
+    void sendJsonMessage(requestWheelRoundEvent)
+  }, [sendJsonMessage])
+
   const onSpinStop = React.useCallback(() => {
-    setIsSpinning(false)
     setIsCelebrating(true)
+    setMustSpin(false)
 
     toast({
-      title: "Winning number: 0",
+      title: `Winning number: ${prizeNumber}, color: ${formattedWheelData[prizeNumber].style?.backgroundColor}`,
     })
-  }, [toast])
+
+    requestNewRound()
+  }, [formattedWheelData, prizeNumber, requestNewRound, toast])
 
   return (
     <>
@@ -63,17 +72,37 @@ const WheelLayout: React.FC = () => {
           <ConfettiExplosion zIndex={99} />
         </div>
       )}
-      <div className="p-4 flex flex-col gap-4">
-        <Typography.H1>Wheel</Typography.H1>
-        <Typography.Lead>Bet on a color and try your luck!</Typography.Lead>
+      <div className="p-4 flex flex-col">
+        <Card>
+          <CardContent className="flex flex-col gap-4 p-8">
+            <Typography.H2>Wheel</Typography.H2>
 
-        <Card className="p-8">
-          <Wheel
-            mustStartSpinning={isSpinning}
-            winningIndex={0}
-            data={data}
-            onSpinStop={onSpinStop}
-          />
+            {formattedWheelData && (
+              <Wheel
+                mustStartSpinning={mustSpin}
+                winningIndex={prizeNumber}
+                data={formattedWheelData}
+                onSpinStop={onSpinStop}
+              />
+            )}
+
+            <div className="flex items-center justify-between bg-popover p-4 rounded-sm">
+              {wheelMetadata.showcase.map((item) => (
+                <div
+                  key={item.color}
+                  className="flex items-center justify-between gap-2"
+                >
+                  <div
+                    className="w-4 h-4 rounded-sm"
+                    style={{ backgroundColor: item.color }}
+                  />
+                  <Typography.Small>{item.payout}&times;</Typography.Small>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+
+          <button onClick={handleSpinClick}>Request new round</button>
         </Card>
       </div>
     </>

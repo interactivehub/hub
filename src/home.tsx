@@ -17,14 +17,14 @@ const Home = () => {
 
   return (
     <div className="overflow-hidden h-screen">
-      <header className="p-4">
+      <header className="flex flex-col p-4 gap-4">
         <Alert className="bg-popover">
           <RocketIcon className="h-4 w-4" />
           <AlertTitle className="font-normal tracking-normal">
             New games coming soon!
           </AlertTitle>
         </Alert>
-        <div className="h-20 py-4">
+        <div className="h-14">
           <Logo />
         </div>
       </header>

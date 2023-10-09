@@ -6,4 +6,4 @@ export interface WSEvent<
   payload: TPayload
 }
 
-export type WSEventType = "newUser"
+export type WSEventType = "newUser" | "requestWheelRound"
